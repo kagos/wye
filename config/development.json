@@ -1,0 +1,4 @@
+{
+    "entities" : ["excuses", "alibis"],
+    "databaseUrl" : "mongodb://localhost:27017/wye"
+}

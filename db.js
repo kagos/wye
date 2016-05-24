@@ -1,6 +1,7 @@
 const Promise = require('bluebird');
 const MongoClient = Promise.promisifyAll(require('mongodb')).MongoClient;
-const url = 'mongodb://localhost:27017/wye';
+const config = require('./config');
+const url = config.databaseUrl;
 
 exports.getAllResponses = (res, req, entity) => {
   return MongoClient.connectAsync(url)
