@@ -1,45 +1,15 @@
-var express = require('express');
-var app = express();
-var bodyParser = require('body-parser');
-var mongodb = require('mongodb');
-var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/wye';
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const PORT = process.env.PORT || 8080;
+const router = express.Router();
+const routes = require("./routes.js");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-const PORT = process.env.PORT || 8080;
-var router = express.Router();
-
-router.route('/excuses').get(function(req, res) {
-  MongoClient.connect(url, function (err, db) {
-    var collection = db.collection("excuses");
-    collection.find().toArray(function (err, result) {
-      if (err) {
-        res.send(err);
-      } else if (result.length) {
-        res.send(result);
-      } else {
-        res.send([]);
-      }
-    });
-  });
-});
-
-router.route('/alibis').get(function(req, res) {
-  MongoClient.connect(url, function (err, db) {
-    var collection = db.collection("alibis");
-    collection.find().toArray(function (err, result) {
-      if (err) {
-        res.send(err);
-      } else if (result.length) {
-        res.send(result);
-      } else {
-        res.send([]);
-      }
-    });
-  });
-});
+routes.setRoute('excuses', router);
+routes.setRoute('alibis', router);
 
 app.use('/api', router);
 app.listen(PORT);
